@@ -1,65 +1,78 @@
 <template>
-  <header class="header">
+  <div>
     <h1>待办事项</h1>
     <input
-      class="new-todo"
-      placeholder="请输入您的待办事项，回车后即可添加"
-      maxlength="50"
+      placeholder="请输入您的待办事项，按下回车后即可添加"
       v-model.trim="newTodo"
-      @keyup.enter="handleAdd"
+      @keyup.enter="addNewTodo"
     />
-    <select v-model="priority" class="priority-select">
-      <option value="normal">普通</option>
-      <option value="urgent">紧急</option>
-      <option value="critical">非常紧急</option>
+    <select v-model="priority">
+      <option :value="0">普通</option>
+      <option :value="1">重要</option>
+      <option :value="2">紧急</option>
     </select>
-    <p v-show="newTodo.length >= 50" class="warn">
-      最多输入 50 个字符哟！！！
+    <p v-show="isShowMsg">
+      最多输入{{ countLimit }}个字符！！！
     </p>
-  </header>
+  </div>
 </template>
 
-
-<script setup>
-import { ref } from 'vue'
-const emit = defineEmits(['addTodo'])
-const newTodo = ref('')
-const priority = ref('normal')  // 添加紧急程度状态
-
-function handleAdd () {
-  if (!newTodo.value || newTodo.value.length > 50) return
-  emit('addTodo', { text: newTodo.value, priority: priority.value })
-  newTodo.value = ''
-  priority.value = 'normal'
+<script>
+const WORD_COUNT_LIMIT = 50
+export default {
+  data() {
+    return {
+      newTodo: '',
+      countLimit: WORD_COUNT_LIMIT,
+      priority: 0 // 新增
+    }
+  },
+  computed: {
+    isShowMsg() {
+      return this.newTodo.length > WORD_COUNT_LIMIT
+    }
+  },
+  methods: {
+    addNewTodo() {
+      if (this.newTodo.length === 0 || this.newTodo.length > WORD_COUNT_LIMIT) return
+      this.$emit('addTodo', { txt: this.newTodo, priority: this.priority })
+      this.newTodo = ''
+      this.priority = 0
+    }
+  }
 }
-
 </script>
 
 <style scoped>
-.hdContainer {
-  text-align: center;
-  font-size: 16px;
-}
-
-.hdTitle {
-  color: #4e6ef2;
-}
-
-.newTodo {
+.new-todo {
+  position: relative;
+  margin: 0;
   width: 100%;
-  padding: 20px 20px;
-  border: none;
-  border-radius: 10px;
-  font-size: 16px;
+  font-size: 24px;
+  font-family: inherit;
+  font-weight: inherit;
+  line-height: 1.4em;
+  border: 0;
+  outline: none;
+  color: inherit;
+  padding: 6px;
+  border: 1px solid #999;
+  box-shadow: inset 0 -1px 5px 0 rgba(0, 0, 0, 0.2);
   box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
-
-.newTodo:focus {
-  outline-color: #4e6ef2;
+.priority-select {
+  width: 100%;
+  padding: 8px;
+  font-size: 16px;
+  margin-top: 8px;
+  border: 1px solid #ddd;
 }
-
-.hdMsg {
-  color: red;
-  margin: 10px 0;
+.warn {
+  color: #e74c3c;
+  font-size: 12px;
+  margin: 8px 0 0 6px;
+  font-weight: bold;
 }
 </style>

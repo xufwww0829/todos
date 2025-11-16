@@ -1,124 +1,140 @@
 <template>
-  <ul class="todo-list">
-    <li 
-      v-for="item in sortedTodos"
-      :key="item.id"
-      class="todo-item"
-      :class="{ 'pinned': item.isPinned, 'urgent': item.priority === 'urgent', 'critical': item.priority === 'critical' }"
-      @mouseenter="hoverId = item.id"
-      @mouseleave="hoverId = null"
-    >
-      <button 
-        v-show="hoverId === item.id"
-        class="pin-btn"
-        @click="togglePin(item)"
+  <div class="tdContainer">
+    <ul class="tdList">
+      <li
+        class="tdItem"
+        v-for="item in todos"
+        :key="item.id"
       >
-        {{ item.isPinned ? '取消置顶' : '置顶' }}
-      </button>
-      <input type="checkbox" v-model="item.completed" />
-      <span :class="{ completed: item.completed }">{{ item.txt }}</span>
-      <span class="date">{{ formatDate(item.createdAt) }}</span>
-      <span class="priority" :class="item.priority">{{ getPriorityText(item.priority) }}</span>
-      <a
-        v-show="hoverId === item.id"
-        class="destroy"
-        @click="$emit('delTodo', item)"
-      >
-        删除
-      </a>
-    </li>
-  </ul>
+        <div class="tdItem-main">
+          <input
+            type="checkbox"
+            v-model="item.completed"
+            class="toToggle"
+          />
+          <span
+            class="tdTxt"
+            :class="{completed:item.completed}"
+          >
+            {{ item.txt }}
+          </span>
+        </div>
+        <div class="meta">
+          <span class="date">{{ fmtDate(item.createdAt) }}</span>
+          <span v-if="item.priority===1" class="badge">重要</span>
+          <span v-if="item.priority===2" class="badge urgent">紧急</span>
+          <span v-if="item.pinned" class="pin">📌</span>
+        </div>
+        <div class="tdItem-acts">
+          <a @click="$emit('togglePin', item)" class="pin-btn">
+            {{ item.pinned ? '取消置顶' : '置顶' }}
+          </a>
+          <a @click="delTodo(item)">删除</a>
+        </div>
+      </li>
+    </ul>
+  </div>
 </template>
 
-<script setup>
-import { ref } from 'vue'
-const props = defineProps({ todos: Array })
-defineEmits(['delTodo'])
-const hoverId = ref(null)
-
-// 添加排序逻辑
-const sortedTodos = computed(() => {
-  return [...props.todos].sort((a, b) => {
-    if (a.isPinned !== b.isPinned) return b.isPinned - a.isPinned
-    if (a.priority !== b.priority) {
-      const priorityOrder = { critical: 3, urgent: 2, normal: 1 }
-      return priorityOrder[b.priority] - priorityOrder[a.priority]
+<script>
+export default {
+  props: ['todos'],
+  methods: {
+    delTodo(item) {
+      this.$emit('delTodo', item)
+    },
+    fmtDate(iso) {
+      return new Date(iso).toLocaleString('zh-CN', {
+        month: 'numeric',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      })
     }
-    return new Date(b.createdAt) - new Date(a.createdAt)
-  })
-})
-
-// 添加辅助方法
-function formatDate(date) {
-  return new Date(date).toLocaleDateString()
+  }
 }
-
-function getPriorityText(priority) {
-  const map = { normal: '普通', urgent: '紧急', critical: '非常紧急' }
-  return map[priority]
-}
-
-function togglePin(item) {
-  item.isPinned = !item.isPinned
-}
-
 </script>
 
 <style scoped>
+.todo-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
 .todo-item {
-  padding: 10px 20px;
-  border-bottom: 1px solid #ddd;
+  position: relative;
+  font-size: 18px;
+  border-bottom: 1px solid #ededed;
+  padding: 16px;
   display: flex;
   align-items: center;
-  gap: 10px;
+  justify-content: space-between;
 }
-
-.pinned {
-  background-color: #fff9e6;
+.todo-item.pinned {
+  background: #fff9e6;
+  border-left: 4px solid #ffa500;
 }
-
-.urgent {
-  border-left: 3px solid #ff9800;
+.view {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
 }
-
-.critical {
-  border-left: 3px solid #f44336;
+.toggle {
+  width: 20px;
+  height: 20px;
+  margin-right: 12px;
 }
-
-.pin-btn {
-  padding: 2px 8px;
-  font-size: 12px;
-  background: #4e6ef2;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
+label {
+  flex: 1;
+  word-break: break-word;
 }
-
-.date {
+label.completed {
+  text-decoration: line-through;
+  color: #d9d9d9;
+}
+.meta {
+  width: 100%;
+  margin-left: 32px;
+  margin-top: 6px;
   font-size: 12px;
   color: #999;
 }
-
-.priority {
-  font-size: 12px;
+.badge {
   padding: 2px 6px;
-  border-radius: 4px;
+  border-radius: 3px;
+  margin-left: 8px;
+  font-size: 11px;
+  font-weight: bold;
 }
-
-.priority.normal {
-  background: #e8f5e9;
-  color: #4caf50;
+.badge.important {
+  background: #e6f7ff;
+  color: #1890ff;
 }
-
-.priority.urgent {
-  background: #fff3e0;
-  color: #ff9800;
+.badge.urgent {
+  background: #fff1f0;
+  color: #ff4d4f;
 }
-
-.priority.critical {
-  background: #ffebee;
-  color: #f44336;
+.pin {
+  margin-left: 8px;
 }
-
+.actions {
+  display: flex;
+  gap: 8px;
+}
+.pin-btn, .destroy {
+  padding: 4px 8px;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 12px;
+}
+.pin-btn {
+  background: #52c41a;
+  color: white;
+}
+.destroy {
+  background: #ff4d4f;
+  color: white;
+}
 </style>
