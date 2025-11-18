@@ -44,35 +44,30 @@ export default {
 </script>
 
 <style scoped>
-.new-todo {
-  position: relative;
-  margin: 0;
-  width: 100%;
-  font-size: 24px;
-  font-family: inherit;
-  font-weight: inherit;
-  line-height: 1.4em;
-  border: 0;
-  outline: none;
-  color: inherit;
-  padding: 6px;
-  border: 1px solid #999;
-  box-shadow: inset 0 -1px 5px 0 rgba(0, 0, 0, 0.2);
-  box-sizing: border-box;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-.priority-select {
-  width: 100%;
-  padding: 8px;
+.hdContainer {
+  text-align: center;
   font-size: 16px;
-  margin-top: 8px;
-  border: 1px solid #ddd;
 }
-.warn {
-  color: #e74c3c;
-  font-size: 12px;
-  margin: 8px 0 0 6px;
-  font-weight: bold;
+
+.hdTitle {
+  color: #4e6ef2;
+}
+
+.newTodo {
+  width: 100%;
+  padding: 20px 20px;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+.newTodo:focus {
+  outline-color: #4e6ef2;
+}
+
+.hdMsg {
+  color: red;
+  margin: 10px 0;
 }
 </style>

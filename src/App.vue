@@ -87,40 +87,25 @@ export default {
 }
 </script>
 
-<style>
-/* 全局基础样式 */
-* {
-  box-sizing: border-box;
-}
+<style >
+html,
 body {
-  font: 14px 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  line-height: 1.4em;
-  background: #f5f5f5;
-  color: #4d4d4d;
-  margin: 0;
-  padding: 0;
-  font-weight: 300;
+  background-color: #f5f5f5;
 }
-.todoapp {
-  background: #fff;
-  margin: 130px 0 40px 0;
-  position: relative;
-  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 25px 50px 0 rgba(0, 0, 0, 0.1);
-}
-.todoapp .header h1 {
-  position: absolute;
-  top: -125px;
-  width: 100%;
-  font-size: 60px;
-  font-weight: 100;
+
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: rgba(175, 47, 47, 0.15);
-  margin: 0;
-  padding: 0;
+  color: #2c3e50;
+  margin-top: 60px;
 }
-.main {
-  position: relative;
-  z-index: 2;
-  border-top: 1px solid #e6e6e6;
+
+.container {
+  max-width: 980px;
+
+  min-height: 100%;
+  margin: 0 auto;
 }
 </style>

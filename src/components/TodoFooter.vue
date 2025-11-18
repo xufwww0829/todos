@@ -29,40 +29,21 @@ export default {
 }
 </script>
 
-<style>
-.footer {
-  color: #777;
-  padding: 10px 15px;
-  height: 58px;
-  text-align: center;
-  border-top: 1px solid #e6e6e6;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+<style scoped>
+.tdFooter {
+    background-color: #fff;
+    padding: 10px 20px;
+    margin: 20px 0;
+    display: flex;
+    justify-content: space-between;
 }
-.todo-count {
-  float: left;
-  text-align: left;
+
+.tdTabs a {
+    padding: 0 10px;
+    cursor: pointer;
 }
-.filters {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  display: flex;
-  gap: 8px;
-}
-.filters li a {
-  color: inherit;
-  text-decoration: none;
-  padding: 3px 7px;
-  border: 1px solid transparent;
-  border-radius: 3px;
-  cursor: pointer;
-}
-.filters li a.selected {
-  border-color: rgba(175, 47, 47, 0.2);
-}
-.filters li a:hover {
-  border-color: rgba(175, 47, 47, 0.1);
+
+.active {
+    color: red;
 }
 </style>

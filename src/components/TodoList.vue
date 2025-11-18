@@ -56,85 +56,45 @@ export default {
 </script>
 
 <style scoped>
-.todo-list {
-  margin: 0;
-  padding: 0;
-  list-style: none;
+.tdList {
+    list-style: none;
+    padding: 0;
+    text-align: left;
+    background-color: #fff;
+    border-radius: 10px;
 }
-.todo-item {
-  position: relative;
-  font-size: 18px;
-  border-bottom: 1px solid #ededed;
-  padding: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+
+.tdItem {
+    padding: 10px 20px 10px 10px;
+    border-bottom: 1px solid #ddd;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
 }
-.todo-item.pinned {
-  background: #fff9e6;
-  border-left: 4px solid #ffa500;
+
+.tdItem:last-child {
+    border-bottom: 0;
 }
-.view {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
+
+.tdToggle {
+    cursor: pointer;
 }
-.toggle {
-  width: 20px;
-  height: 20px;
-  margin-right: 12px;
+
+.tdTxt {
+    padding-left: 10px;
 }
-label {
-  flex: 1;
-  word-break: break-word;
+
+.completed {
+    text-decoration: line-through;
+    color: #999;
 }
-label.completed {
-  text-decoration: line-through;
-  color: #d9d9d9;
+
+.tdItem-acts {
+    display: none;
+    color: red;
 }
-.meta {
-  width: 100%;
-  margin-left: 32px;
-  margin-top: 6px;
-  font-size: 12px;
-  color: #999;
-}
-.badge {
-  padding: 2px 6px;
-  border-radius: 3px;
-  margin-left: 8px;
-  font-size: 11px;
-  font-weight: bold;
-}
-.badge.important {
-  background: #e6f7ff;
-  color: #1890ff;
-}
-.badge.urgent {
-  background: #fff1f0;
-  color: #ff4d4f;
-}
-.pin {
-  margin-left: 8px;
-}
-.actions {
-  display: flex;
-  gap: 8px;
-}
-.pin-btn, .destroy {
-  padding: 4px 8px;
-  border: none;
-  border-radius: 3px;
-  cursor: pointer;
-  font-size: 12px;
-}
-.pin-btn {
-  background: #52c41a;
-  color: white;
-}
-.destroy {
-  background: #ff4d4f;
-  color: white;
+
+.tdItem:hover .tdItem-acts {
+    display: block;
 }
 </style>
