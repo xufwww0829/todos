@@ -1,49 +1,29 @@
 <template>
-  <div class="tdFooter">
-    <span>总计：{{ count }}</span>
-    <div class="tdTabs">
-      <a
-        :class="{active:tabType == 0}"
-        @click="tabClick(0)"
-      >全部</a>
-      <a
-        :class="{active:tabType == 1}"
-        @click="tabClick(1)"
-      >未完成</a>
-      <a
-        :class="{active:tabType == 2}"
-        @click="tabClick(2)"
-      >已完成</a>
+  <div class="flex items-center justify-between px-4 py-3 bg-white/80 backdrop-blur-md rounded-2xl shadow-lg">
+    <span class="text-slate-600">
+      总计：<strong class="text-slate-800">{{ count }}</strong>
+    </span>
+    <div class="flex gap-2">
+      <button
+        v-for="(label, idx) in ['全部', '未完成', '已完成']"
+        :key="idx"
+        @click="$emit('changeTabType', idx)"
+        :class="[
+          'px-4 py-2 rounded-lg text-sm font-medium transition-all',
+          tabType === idx 
+            ? 'bg-blue-500 text-white shadow-md' 
+            : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+        ]"
+      >
+        {{ label }}
+      </button>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  props: ['count', 'tabType'],
-  methods: {
-    tabClick(newTabtype) {
-      this.$emit('changeTabType', newTabtype)
-    }
-  }
+  name: 'TodoFooter',
+  props: ['count', 'tabType']
 }
 </script>
-
-<style scoped>
-.tdFooter {
-    background-color: #fff;
-    padding: 10px 20px;
-    margin: 20px 0;
-    display: flex;
-    justify-content: space-between;
-}
-
-.tdTabs a {
-    padding: 0 10px;
-    cursor: pointer;
-}
-
-.active {
-    color: red;
-}
-</style>
